@@ -1,0 +1,176 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system — dark professional portfolio.
+ * Electric blue primary, violet secondary, cyan highlight.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-serif: var(--font-display);
+  --font-sans: var(--font-body);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  --background: oklch(0.16 0.015 265);
+  --foreground: oklch(0.95 0.005 260);
+  --surface: oklch(0.21 0.018 265);
+  --surface-foreground: oklch(0.95 0.005 260);
+  --card: oklch(0.2 0.018 265);
+  --card-foreground: oklch(0.95 0.005 260);
+  --popover: oklch(0.2 0.018 265);
+  --popover-foreground: oklch(0.95 0.005 260);
+
+  --primary: oklch(0.65 0.19 255);
+  --primary-foreground: oklch(0.14 0.02 265);
+  --secondary: oklch(0.62 0.2 300);
+  --secondary-foreground: oklch(0.97 0.005 260);
+  --accent: oklch(0.78 0.13 200);
+  --accent-foreground: oklch(0.14 0.02 265);
+
+  --muted: oklch(0.26 0.018 265);
+  --muted-foreground: oklch(0.72 0.015 260);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.97 0.005 260);
+
+  --border: oklch(0.32 0.02 265 / 70%);
+  --input: oklch(0.3 0.02 265);
+  --ring: oklch(0.65 0.19 255);
+
+  --font-display: "Times New Roman", "Iowan Old Style", Georgia, serif;
+  --font-body: ui-sans-serif, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --gradient-accent: linear-gradient(
+    120deg,
+    oklch(0.65 0.19 255),
+    oklch(0.62 0.2 300) 55%,
+    oklch(0.78 0.13 200)
+  );
+  --glow-primary: 0 0 0 1px oklch(0.65 0.19 255 / 25%), 0 18px 40px -22px oklch(0.65 0.19 255 / 55%);
+  --shadow-card: 0 20px 45px -30px oklch(0 0 0 / 90%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: oklch(0.65 0.19 255 / 35%);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+@utility text-gradient {
+  background-image: var(--gradient-accent);
+  background-clip: text;
+  color: transparent;
+}
+
+@utility surface-panel {
+  background-color: color-mix(in oklab, var(--surface) 80%, transparent);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+
+@utility hover-lift {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  &:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in oklab, var(--primary) 45%, transparent);
+    box-shadow: var(--glow-primary);
+  }
+}
+
+@utility ambient-glow {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -20% 10% auto 10%;
+    height: 340px;
+    z-index: -1;
+    background: radial-gradient(
+      ellipse at top,
+      oklch(0.65 0.19 255 / 18%),
+      oklch(0.62 0.2 300 / 8%) 45%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-fade-up {
+  animation: fade-up 0.5s ease both;
+}
